@@ -1,6 +1,6 @@
 <?php
 
-$tasks = file_get_contents('tasks.json');
+$tasks = file_get_contents('../tasks.json');
 
 //var_dump($tasks);
 header("Content-Type: application/json");

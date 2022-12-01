@@ -1,1 +1,10 @@
-[{"title":"test","done":false},{"title":"test task2","done":false},{"title":"test task 1","done":false},{"title":"Read php docs","done":false},{"title":"Read js docs","done":false},{"title":"Read html docs","done":false},{"title":"Read vue docs","done":false}]
+[
+  {
+    "title": "test2",
+    "done": false
+  },
+  {
+    "title": "test",
+    "done": false
+  }
+]

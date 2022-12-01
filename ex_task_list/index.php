@@ -1,25 +1,3 @@
-<?php
-
-/* 
-Dobbiamo creare una web-app che permetta di leggere e scrivere una lista di Todo.
-Deve essere anche gestita la persistenza dei dati leggendoli da, e scrivendoli in un file JSON.
-
-Stack
-Html, CSS, VueJS (importato tramite CDN), axios, PHP
-
-Consigli
-Nello svolgere l’esercizio seguite un approccio graduale.
-Prima assicuratevi che la vostra pagina index.php (il vostro front-end) riesca a comunicare correttamente con il vostro script PHP (le vostre “API”).
-Lo step successivo è quello di “testare" l'invio di un nuovo task, sapendo che manca comunque la persistenza lato server (ancora non memorizzate i dati da nessuna parte).
-Solo a questo punto sarà utile passare alla lettura della lista da un file JSON.
-
-Bonus
-Mostrare lo stato del task → se completato, barrare il testo
-Permettere di segnare un task come completato facendo click sul testo
-Permettere il toggle del task (completato/non completato)
-Abilitare l’eliminazione di un task
-*/ ?>
-
 <!doctype html>
 <html lang='en'>
 
@@ -27,28 +5,44 @@ Abilitare l’eliminazione di un task
   <meta charset='utf-8'>
   <meta name='viewport' content='width=device-width, initial-scale=1'>
   <title>Tasks App</title>
+  <!-- FontAwesome 6.2.0 CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- (Optional) Use CSS or JS implementation -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/js/all.min.js" integrity="sha512-naukR7I+Nk6gp7p5TMA4ycgfxaZBJ7MO5iC3Fp6ySQyKFHOGfpkSZkYVWV5R7u7cfAicxanwYQ5D1e17EfJcMA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3' crossorigin='anonymous'>
 
 
 </head>
 
-<body>
+<body class="bg-dark text-white vh-100 d-flex flex-column align-items center justify-content-center ">
   <div id='app'>
-    <h1>Tasks</h1>
+    <div class="container">
+      <h1>Tasks</h1>
+      <div class="col-4">
+        <div class="add-task d-flex mb-2">
+          <input type="text" v-model="newTask" @keyup.enter="saveTask" class="form-control rounded-0">
+          <button @click="saveTask" class="btn btn-outline-primary rounded-0">Add</button>
+        </div>
+        <div class="tasks" v-if="tasks.length">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item d-flex justify-content-between" v-for="(task, index) in tasks">
+              <span @click.stop="updateTask(index)" :class="{'text-decoration-line-through' : task.done}">
+                {{task.title}}
+              </span>
 
-    <div class="add-task">
-      <input type="text" v-model="newTask" @keyup.enter="saveTask">
-      <button @click="saveTask">Add task</button>
-    </div>
-    <div class="tasks" v-if="tasks.length">
-      <ul>
-        <li v-for="task in tasks">{{task.title}}</li>
-      </ul>
-    </div>
-    <div v-else>
-      <p>No tasks!</p>
-    </div>
+              <button type="button" class="btn btn-danger btn-sm" @click="deleteTask(index)">
+                <i class="fas fa-trash fa-xs fa-fw"></i>
+              </button>
+            </li>
+          </ul>
+        </div>
+        <div v-else>
+          <p>No tasks!</p>
+        </div>
+      </div>
 
+    </div>
   </div>
 
 
